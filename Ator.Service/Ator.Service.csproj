@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.5.10" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.7.0" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ator.IService\Ator.IService.csproj" />
+    <ProjectReference Include="..\Ator.Model\Ator.Model.csproj" />
+    <ProjectReference Include="..\Ator.Repository\Ator.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

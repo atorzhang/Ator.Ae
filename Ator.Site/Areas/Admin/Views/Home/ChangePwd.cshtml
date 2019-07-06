@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Areas/Admin/Views/Shared/_FormLayout.cshtml";
+    @model SysDictionary;
+}
+
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label for="oldPwd" class="layui-form-label">
+            <span class="we-red">*</span>原密码
+        </label>
+        <div class="layui-input-inline">
+            <input type="password" id="oldPwd" name="oldPwd" value=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="newPwd" class="layui-form-label">
+            新密码
+        </label>
+        <div class="layui-input-inline">
+            <input type="password" id="newPwd" name="newPwd"  lay-verify="pass" value=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="newPwdAgain" class="layui-form-label">
+            确认新密码
+        </label>
+        <div class="layui-input-inline">
+            <input type="password" id="newPwdAgain" name="newPwdAgain" lay-verify="repass" value=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <button class="layui-btn" lay-filter="add" lay-submit="">@Html.Raw("修改密码")</button>
+    </div>
+</form>
+@section Scripts{
+    <script type="text/javascript">
+        _ContralPath = "/Admin/Home/";
+        layui.use(['form', 'layer', 'admin','jquery'], function () {
+            var form = layui.form,
+                admin = layui.admin,
+                layer = layui.layer,
+                $  =layui.jquery;
+            form.render();
+            //自定义验证规则
+            form.verify({
+                pass: [/(.+){6,18}$/, '密码必须6到18位']
+                , repass: function (value) {
+                    var repassvalue = $('#newPwd').val();
+                    if (value != repassvalue) {
+                        return '两次输入的密码不一致!';
+                    }
+                }
+            });
+
+            //监听提交
+            form.on('submit(add)', function (data) {
+                //发异步，把数据提交给后台
+                $.post(_ContralPath + "DoChangePwd", data.field, function (res) {
+                    if (res.success) {
+                        layer.msg("修改成功," + res.msg);
+                    } else {
+                        layer.msg("操作失败," + res.msg);
+                    }
+                }, "json");
+
+                return false;
+            });
+        });
+    </script>
+}
+
